@@ -161,6 +161,7 @@ class MainWindow(QMainWindow):
                 self.control_panel.physics_toggle.connect(self.on_physics_toggle)
                 
                 dock = QDockWidget("⚙ Controls", self)
+                dock.setObjectName("ControlPanelDock")
                 dock.setWidget(self.control_panel)
                 dock.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetMovable |
                                 QDockWidget.DockWidgetFeature.DockWidgetFloatable)
@@ -178,6 +179,7 @@ class MainWindow(QMainWindow):
             try:
                 self.info_panel = InfoPanel()
                 info_dock = QDockWidget("📊 Info", self)
+                info_dock.setObjectName("InfoPanelDock")
                 info_dock.setWidget(self.info_panel)
                 info_dock.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetMovable |
                                      QDockWidget.DockWidgetFeature.DockWidgetFloatable)

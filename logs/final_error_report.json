@@ -1,10 +1,10 @@
 {
-  "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282",
-  "export_timestamp": "2025-12-05T14:54:18.852126",
+  "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1",
+  "export_timestamp": "2025-12-05T15:05:58.345019",
   "total_errors": 10,
   "errors": [
     {
-      "timestamp": "2025-12-05T14:54:16.130896",
+      "timestamp": "2025-12-05T15:05:54.799347",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -12,10 +12,10 @@
       "context": {},
       "traceback": "",
       "component": "MAIN",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:17.862294",
+      "timestamp": "2025-12-05T15:05:56.471091",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -23,10 +23,10 @@
       "context": {},
       "traceback": "",
       "component": "RENDERER_INIT",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:17.902788",
+      "timestamp": "2025-12-05T15:05:56.514141",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -34,10 +34,10 @@
       "context": {},
       "traceback": "",
       "component": "UI_INIT",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:17.903112",
+      "timestamp": "2025-12-05T15:05:56.514417",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -45,10 +45,10 @@
       "context": {},
       "traceback": "",
       "component": "ENGINE_INIT",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:18.042718",
+      "timestamp": "2025-12-05T15:05:56.665589",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -58,10 +58,10 @@
       },
       "traceback": "",
       "component": "ENGINE_INIT",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:18.083138",
+      "timestamp": "2025-12-05T15:05:56.707661",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -72,10 +72,10 @@
       },
       "traceback": "",
       "component": "MOCK_ENGINE_INIT",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:18.084025",
+      "timestamp": "2025-12-05T15:05:56.708608",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -83,10 +83,10 @@
       "context": {},
       "traceback": "",
       "component": "ENGINE_INIT",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:18.084877",
+      "timestamp": "2025-12-05T15:05:56.709386",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -94,10 +94,10 @@
       "context": {},
       "traceback": "",
       "component": "MAIN_WINDOW",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:18.090961",
+      "timestamp": "2025-12-05T15:05:56.837074",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -105,10 +105,10 @@
       "context": {},
       "traceback": "",
       "component": "MAIN",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     },
     {
-      "timestamp": "2025-12-05T14:54:18.851871",
+      "timestamp": "2025-12-05T15:05:58.344398",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -116,7 +116,7 @@
       "context": {},
       "traceback": "",
       "component": "MAIN",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     }
   ],
   "summary": {
@@ -136,7 +136,7 @@
       "GENERAL_ERROR": 10
     },
     "latest_error": {
-      "timestamp": "2025-12-05T14:54:18.851871",
+      "timestamp": "2025-12-05T15:05:58.344398",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -144,7 +144,7 @@
       "context": {},
       "traceback": "",
       "component": "MAIN",
-      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
     }
   }
 }

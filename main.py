@@ -83,7 +83,10 @@ def main():
             app.processEvents()
             
             # Create window with error handling
+            window = None
+            
             def create_window():
+                nonlocal window
                 try:
                     splash.showMessage("Loading UI components...")
                     app.processEvents()
@@ -99,15 +102,14 @@ def main():
                     app.processEvents()
                     
                     # Show window and close splash
-                    QTimer.singleShot(500, lambda: (window.show(), splash.finish(window)))
+                    window.show()
+                    splash.finish(window)
                     
                     error_logger.log_error(
                         "Main window created successfully",
                         component="MAIN",
                         severity=ErrorSeverity.INFO
                     )
-                    
-                    return window
                 
                 except UIError as ui_error:
                     error_logger.log_exception(
@@ -140,8 +142,8 @@ def main():
                     )
                     sys.exit(1)
             
-            # Delay window creation slightly for splash effect
-            QTimer.singleShot(100, create_window)
+            # Create window immediately (not delayed)
+            create_window()
             
             # Run application event loop
             exit_code = app.exec()
