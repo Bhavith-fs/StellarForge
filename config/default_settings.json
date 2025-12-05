@@ -1,0 +1,33 @@
+{
+  "window": {
+    "width": 1280,
+    "height": 720,
+    "title": "StellarForge"
+  },
+  "simulation": {
+    "default_particle_count": 5000,
+    "default_time_step": 0.016,
+    "default_speed": 1.0,
+    "snapshot_interval": 1.0
+  },
+  "rendering": {
+    "point_size": 5.0,
+    "background_color": [0.02, 0.02, 0.05, 1.0],
+    "show_axis": true,
+    "show_grid": false
+  },
+  "camera": {
+    "fov": 60,
+    "distance": 150,
+    "elevation": 30,
+    "azimuth": 45
+  },
+  "procedural_generation": {
+    "volume_size": [64, 64, 64],
+    "num_galaxies": 10,
+    "world_scale": 200.0,
+    "noise_octaves": 4,
+    "noise_persistence": 0.5,
+    "noise_scale": 0.05
+  }
+}

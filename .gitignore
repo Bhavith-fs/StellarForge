@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data and Config
+data/*.hdf5
+data/*.h5
+config/*.json
+!config/default_settings.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+Cosmic simulation(Reference PDF) .pdf

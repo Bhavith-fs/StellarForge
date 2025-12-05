@@ -1,0 +1,19 @@
+# Core GUI and Visualization
+PyQt6>=6.6.0
+vispy>=0.14.0
+
+# Scientific Computing
+numpy>=1.24.0
+scipy>=1.11.0
+astropy>=5.3.0
+
+# Procedural Generation
+noise>=1.2.2
+mesa>=2.1.0
+
+# Data Storage
+h5py>=3.10.0
+
+# Additional Dependencies
+pyopengl>=3.1.6
+pillow>=10.0.0
