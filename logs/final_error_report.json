@@ -1,0 +1,150 @@
+{
+  "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282",
+  "export_timestamp": "2025-12-05T14:54:18.852126",
+  "total_errors": 10,
+  "errors": [
+    {
+      "timestamp": "2025-12-05T14:54:16.130896",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "Application started",
+      "context": {},
+      "traceback": "",
+      "component": "MAIN",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:17.862294",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "Renderer initialized successfully",
+      "context": {},
+      "traceback": "",
+      "component": "RENDERER_INIT",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:17.902788",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "UI initialized successfully",
+      "context": {},
+      "traceback": "",
+      "component": "UI_INIT",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:17.903112",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "Starting universe generation...",
+      "context": {},
+      "traceback": "",
+      "component": "ENGINE_INIT",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:18.042718",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "Universe generated: 4776 particles",
+      "context": {
+        "particle_count": 4776
+      },
+      "traceback": "",
+      "component": "ENGINE_INIT",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:18.083138",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "MockEngine initialized with 4776 particles",
+      "context": {
+        "particle_count": 4776,
+        "distribution": "sphere"
+      },
+      "traceback": "",
+      "component": "MOCK_ENGINE_INIT",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:18.084025",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "Engine initialized successfully",
+      "context": {},
+      "traceback": "",
+      "component": "ENGINE_INIT",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:18.084877",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "MainWindow initialized successfully",
+      "context": {},
+      "traceback": "",
+      "component": "MAIN_WINDOW",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:18.090961",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "Main window created successfully",
+      "context": {},
+      "traceback": "",
+      "component": "MAIN",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    },
+    {
+      "timestamp": "2025-12-05T14:54:18.851871",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "Application closed normally",
+      "context": {},
+      "traceback": "",
+      "component": "MAIN",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    }
+  ],
+  "summary": {
+    "total_errors": 10,
+    "by_severity": {
+      "INFO": 10
+    },
+    "by_component": {
+      "MAIN": 3,
+      "RENDERER_INIT": 1,
+      "UI_INIT": 1,
+      "ENGINE_INIT": 3,
+      "MOCK_ENGINE_INIT": 1,
+      "MAIN_WINDOW": 1
+    },
+    "by_error_code": {
+      "GENERAL_ERROR": 10
+    },
+    "latest_error": {
+      "timestamp": "2025-12-05T14:54:18.851871",
+      "severity": "INFO",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "Application closed normally",
+      "context": {},
+      "traceback": "",
+      "component": "MAIN",
+      "session_id": "06771d99-fc8d-4cc0-9e31-4f25d0775282"
+    }
+  }
+}
