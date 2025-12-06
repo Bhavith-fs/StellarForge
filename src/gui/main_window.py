@@ -24,6 +24,14 @@ from vis import UniverseRenderer
 from engine_bridge import MockEngine
 from proc_gen import UniverseGenerator
 
+# Try to import C++ engine, fallback to MockEngine
+try:
+    from engine_bridge import CppEngine
+    CPP_ENGINE_AVAILABLE = True
+except ImportError:
+    CPP_ENGINE_AVAILABLE = False
+    CppEngine = None
+
 import numpy as np
 import time
 
@@ -34,7 +42,7 @@ class MainWindow(QMainWindow):
     Integrates PyQt6 UI with VisPy 3D rendering.
     """
     
-    def __init__(self):
+    def __init__(self, use_cpp_engine=False, backend='openmp'):
         super().__init__()
         
         self.error_logger = get_error_logger()
@@ -42,7 +50,37 @@ class MainWindow(QMainWindow):
         try:
             # Initialize components
             self.app_state = AppState()
-            self.engine = MockEngine()
+            
+            # Initialize physics engine
+            if use_cpp_engine and CPP_ENGINE_AVAILABLE:
+                try:
+                    self.engine = CppEngine(backend=backend)
+                    self.error_logger.log_error(
+                        f"Using C++ physics engine with backend: {backend}",
+                        component="MAIN_WINDOW_INIT",
+                        severity=ErrorSeverity.INFO
+                    )
+                except Exception as e:
+                    self.error_logger.log_exception(
+                        e,
+                        component="CPP_ENGINE_INIT",
+                        severity=ErrorSeverity.WARNING
+                    )
+                    self.error_logger.log_error(
+                        "Falling back to MockEngine",
+                        component="MAIN_WINDOW_INIT",
+                        severity=ErrorSeverity.WARNING
+                    )
+                    self.engine = MockEngine()
+            else:
+                if use_cpp_engine and not CPP_ENGINE_AVAILABLE:
+                    self.error_logger.log_error(
+                        "C++ engine requested but not available. Using MockEngine.",
+                        component="MAIN_WINDOW_INIT",
+                        severity=ErrorSeverity.WARNING
+                    )
+                self.engine = MockEngine()
+            
             self.scenario_manager = ScenarioManager()
             self.universe_generator = UniverseGenerator()
             

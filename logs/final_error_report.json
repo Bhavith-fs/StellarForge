@@ -1,21 +1,32 @@
 {
-  "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1",
-  "export_timestamp": "2025-12-05T15:05:58.345019",
-  "total_errors": 10,
+  "session_id": "45447501-2605-4598-825a-fcdb81985473",
+  "export_timestamp": "2025-12-06T15:40:22.005913",
+  "total_errors": 11,
   "errors": [
     {
-      "timestamp": "2025-12-05T15:05:54.799347",
+      "timestamp": "2025-12-06T15:39:53.906076",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
-      "message": "Application started",
+      "message": "Application started (engine: cpp, backend: cuda)",
       "context": {},
       "traceback": "",
       "component": "MAIN",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:56.471091",
+      "timestamp": "2025-12-06T15:39:54.980875",
+      "severity": "WARNING",
+      "error_type": "GeneralError",
+      "error_code": "GENERAL_ERROR",
+      "message": "C++ engine requested but not available. Using MockEngine.",
+      "context": {},
+      "traceback": "",
+      "component": "MAIN_WINDOW_INIT",
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
+    },
+    {
+      "timestamp": "2025-12-06T15:39:55.055267",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -23,10 +34,10 @@
       "context": {},
       "traceback": "",
       "component": "RENDERER_INIT",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:56.514141",
+      "timestamp": "2025-12-06T15:39:55.156996",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -34,10 +45,10 @@
       "context": {},
       "traceback": "",
       "component": "UI_INIT",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:56.514417",
+      "timestamp": "2025-12-06T15:39:55.157122",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -45,37 +56,37 @@
       "context": {},
       "traceback": "",
       "component": "ENGINE_INIT",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:56.665589",
+      "timestamp": "2025-12-06T15:39:55.265882",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
-      "message": "Universe generated: 4776 particles",
+      "message": "Universe generated: 6523 particles",
       "context": {
-        "particle_count": 4776
+        "particle_count": 6523
       },
       "traceback": "",
       "component": "ENGINE_INIT",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:56.707661",
+      "timestamp": "2025-12-06T15:39:55.320436",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
-      "message": "MockEngine initialized with 4776 particles",
+      "message": "MockEngine initialized with 6523 particles",
       "context": {
-        "particle_count": 4776,
+        "particle_count": 6523,
         "distribution": "sphere"
       },
       "traceback": "",
       "component": "MOCK_ENGINE_INIT",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:56.708608",
+      "timestamp": "2025-12-06T15:39:55.321548",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -83,10 +94,10 @@
       "context": {},
       "traceback": "",
       "component": "ENGINE_INIT",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:56.709386",
+      "timestamp": "2025-12-06T15:39:55.321641",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -94,10 +105,10 @@
       "context": {},
       "traceback": "",
       "component": "MAIN_WINDOW",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:56.837074",
+      "timestamp": "2025-12-06T15:39:55.470371",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -105,10 +116,10 @@
       "context": {},
       "traceback": "",
       "component": "MAIN",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     },
     {
-      "timestamp": "2025-12-05T15:05:58.344398",
+      "timestamp": "2025-12-06T15:40:22.005745",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -116,16 +127,18 @@
       "context": {},
       "traceback": "",
       "component": "MAIN",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     }
   ],
   "summary": {
-    "total_errors": 10,
+    "total_errors": 11,
     "by_severity": {
-      "INFO": 10
+      "INFO": 10,
+      "WARNING": 1
     },
     "by_component": {
       "MAIN": 3,
+      "MAIN_WINDOW_INIT": 1,
       "RENDERER_INIT": 1,
       "UI_INIT": 1,
       "ENGINE_INIT": 3,
@@ -133,10 +146,10 @@
       "MAIN_WINDOW": 1
     },
     "by_error_code": {
-      "GENERAL_ERROR": 10
+      "GENERAL_ERROR": 11
     },
     "latest_error": {
-      "timestamp": "2025-12-05T15:05:58.344398",
+      "timestamp": "2025-12-06T15:40:22.005745",
       "severity": "INFO",
       "error_type": "GeneralError",
       "error_code": "GENERAL_ERROR",
@@ -144,7 +157,7 @@
       "context": {},
       "traceback": "",
       "component": "MAIN",
-      "session_id": "af45d44c-ea0d-42a9-9513-e27c0cf6bed1"
+      "session_id": "45447501-2605-4598-825a-fcdb81985473"
     }
   }
 }
