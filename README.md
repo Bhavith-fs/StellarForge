@@ -1,7 +1,9 @@
 # StellarForge
 
 build command:<br>
-  `mkdir out && cd out && cmake .. && make -j12 && cd - && ./Project/ParticleSim/ParticleSim`
+```
+mkdir out && cd out && cmake .. && make -j12 && cd - && ./Project/ParticleSim/ParticleSim
+```
 
 mouse control:<br>
 * Left click: attract particles<br>
