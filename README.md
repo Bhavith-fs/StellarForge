@@ -10,3 +10,5 @@ mouse control:<br>
 * Rigth click: repel particles<br>
 * Middle click: move camera<br>
 * Scroll: zoom in/out<br>
+keyboard control:<br>
+* K: set all particle velocity to 0
