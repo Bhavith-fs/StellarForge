@@ -1,10 +1,10 @@
 # StellarForge
 
-build command:
+build command:<br>
   `mkdir out && cd out && cmake .. && make -j12 && cd - && ./Project/ParticleSim/ParticleSim`
 
-mouse control:
-  Left click: attract particles
-  Rigth click: repel particles
-  Middle click: move camera
-  Scroll: zoom in/out
+mouse control:<br>
+  Left click: attract particles<br>
+  Rigth click: repel particles<br>
+  Middle click: move camera<br>
+  Scroll: zoom in/out<br>
