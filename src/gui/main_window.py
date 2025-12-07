@@ -92,14 +92,20 @@ class MainWindow(QMainWindow):
             self.canvas = None
             
             # Performance tracking
-            self.last_frame_time = time.time()
+            self.last_frame_time = time.perf_counter()
             self.frame_times = []
             self.fps = 0.0
+            self.ui_update_stride = 4  # Update heavy UI labels every N frames
+            self.ui_update_counter = 0
             
             # Update timer
             self.update_timer = QTimer()
             self.update_timer.timeout.connect(self.update_simulation)
             self.update_timer.setInterval(16)  # ~60 FPS
+            try:
+                self.update_timer.setTimerType(Qt.TimerType.PreciseTimer)
+            except Exception:
+                pass
             
             self.init_ui()
             self.init_engine()
@@ -198,7 +204,7 @@ class MainWindow(QMainWindow):
                 self.control_panel.spawn_object.connect(self.on_spawn_object)
                 self.control_panel.physics_toggle.connect(self.on_physics_toggle)
                 
-                dock = QDockWidget("⚙ Controls", self)
+                dock = QDockWidget("Controls", self)
                 dock.setObjectName("ControlPanelDock")
                 dock.setWidget(self.control_panel)
                 dock.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetMovable |
@@ -216,7 +222,7 @@ class MainWindow(QMainWindow):
             # Create info panel dock
             try:
                 self.info_panel = InfoPanel()
-                info_dock = QDockWidget("📊 Info", self)
+                info_dock = QDockWidget("Info", self)
                 info_dock.setObjectName("InfoPanelDock")
                 info_dock.setWidget(self.info_panel)
                 info_dock.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetMovable |
@@ -511,7 +517,7 @@ class MainWindow(QMainWindow):
         """Update simulation step with error handling (called by timer)."""
         try:
             # Calculate FPS
-            current_time = time.time()
+            current_time = time.perf_counter()
             frame_time = (current_time - self.last_frame_time) * 1000  # ms
             self.last_frame_time = current_time
             
@@ -522,11 +528,12 @@ class MainWindow(QMainWindow):
             
             # Calculate and display FPS
             try:
-                if len(self.frame_times) > 0:
+                self.ui_update_counter = (self.ui_update_counter + 1) % self.ui_update_stride
+                if len(self.frame_times) > 0 and self.ui_update_counter == 0:
                     avg_frame_time = sum(self.frame_times) / len(self.frame_times)
                     self.fps = 1000.0 / avg_frame_time if avg_frame_time > 0 else 0
                     
-                    # Update info panel safely
+                    # Update info panel safely at reduced cadence
                     if self.info_panel:
                         self.info_panel.update_fps(self.fps)
                         self.info_panel.update_frame_time(avg_frame_time)
@@ -616,9 +623,9 @@ class MainWindow(QMainWindow):
             
             try:
                 # Update UI elements
-                if self.timeline_widget:
+                if self.timeline_widget and self.ui_update_counter == 0:
                     self.timeline_widget.update_time(self.app_state.current_time)
-                if self.info_panel:
+                if self.info_panel and self.ui_update_counter == 0:
                     self.info_panel.update_active_particles(self.app_state.get_particle_count())
             except Exception as ui_error:
                 self.error_logger.log_exception(

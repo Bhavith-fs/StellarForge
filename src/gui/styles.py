@@ -7,41 +7,41 @@ Provides dark theme with hover effects, smooth transitions, and polished look.
 MAIN_STYLESHEET = """
 /* Global Application Style */
 QMainWindow {
-    background-color: #1a1a2e;
+    background-color: #0f172a;
 }
 
 QWidget {
-    background-color: #16213e;
-    color: #e8e8e8;
+    background-color: #111827;
+    color: #e5e7eb;
     font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 10pt;
+    font-size: 9.5pt;
 }
 
 /* Menu Bar */
 QMenuBar {
-    background-color: #0f0f1e;
-    color: #e8e8e8;
-    border-bottom: 1px solid #2a2a4e;
-    padding: 4px;
+    background-color: #0b1220;
+    color: #e5e7eb;
+    border-bottom: 1px solid #1f2937;
+    padding: 3px;
 }
 
 QMenuBar::item {
-    padding: 6px 12px;
+    padding: 5px 10px;
     background-color: transparent;
     border-radius: 4px;
 }
 
 QMenuBar::item:selected {
-    background-color: #533483;
+    background-color: #303a6d;
 }
 
 QMenuBar::item:pressed {
-    background-color: #6a43a0;
+    background-color: #374799;
 }
 
 QMenu {
-    background-color: #1a1a2e;
-    border: 1px solid #533483;
+    background-color: #111827;
+    border: 1px solid #1f2937;
     border-radius: 6px;
     padding: 4px;
 }
@@ -53,13 +53,13 @@ QMenu::item {
 }
 
 QMenu::item:selected {
-    background-color: #533483;
+    background-color: #303a6d;
     color: #ffffff;
 }
 
 QMenu::separator {
     height: 1px;
-    background-color: #2a2a4e;
+    background-color: #1f2937;
     margin: 6px 10px;
 }
 
@@ -102,8 +102,8 @@ QGroupBox {
     background-color: #1a1a2e;
     border: 2px solid #2a2a4e;
     border-radius: 8px;
-    margin-top: 12px;
-    padding-top: 18px;
+    margin-top: 10px;
+    padding-top: 14px;
     font-weight: bold;
     color: #b8b8d0;
 }
@@ -111,7 +111,7 @@ QGroupBox {
 QGroupBox::title {
     subcontrol-origin: margin;
     subcontrol-position: top left;
-    padding: 4px 10px;
+    padding: 3px 9px;
     background-color: #533483;
     color: #ffffff;
     border-radius: 4px;
@@ -124,10 +124,10 @@ QPushButton {
     color: #ffffff;
     border: none;
     border-radius: 6px;
-    padding: 10px 16px;
+    padding: 8px 14px;
     font-weight: bold;
     font-size: 10pt;
-    min-height: 24px;
+    min-height: 22px;
 }
 
 QPushButton:hover {
@@ -183,14 +183,14 @@ QPushButton#spawnButton:hover {
 /* Radio Button */
 QRadioButton {
     color: #e8e8e8;
-    spacing: 8px;
-    padding: 6px;
+    spacing: 6px;
+    padding: 4px;
 }
 
 QRadioButton::indicator {
-    width: 18px;
-    height: 18px;
-    border-radius: 9px;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
     border: 2px solid #533483;
     background-color: #1a1a2e;
 }
@@ -213,16 +213,18 @@ QRadioButton:hover {
 /* Check Box */
 QCheckBox {
     color: #e8e8e8;
-    spacing: 8px;
-    padding: 6px;
+    spacing: 6px;
+    padding: 4px;
 }
 
 QCheckBox::indicator {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 4px;
     border: 2px solid #533483;
     background-color: #1a1a2e;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 QCheckBox::indicator:checked {
