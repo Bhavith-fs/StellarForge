@@ -10,6 +10,7 @@ from typing import Optional
 
 from core.exceptions import RenderingError, DataValidationError
 from core.error_logger import get_error_logger, ErrorSeverity
+from .model_loader import ModelLoader
 
 
 class UniverseRenderer:
@@ -108,6 +109,11 @@ class UniverseRenderer:
                     context={'stage': 'axis_grid_creation'}
                 )
                 # Don't fail if axis/grid fails
+            
+            # Model Loader
+            self.model_loader = ModelLoader()
+            self.meshes = []  # Keep track of mesh visuals
+            self.mesh_orbits = []  # Track orbital data: (radius, angle, speed, center)
             
             # Data
             self.positions: Optional[np.ndarray] = None
@@ -312,12 +318,103 @@ class UniverseRenderer:
                 cause=e
             )
     
+    def add_mesh(self, file_path: str, position: tuple = (0, 0, 0), scale: float = 1.0, 
+                  orbit_radius: float = 0, orbit_speed: float = 0, orbit_center: tuple = (0, 0, 0)):
+        """
+        Add a 3D mesh to the scene with optional orbital motion.
+        
+        Args:
+            file_path: Path to GLB/GLTF file
+            position: Initial position
+            scale: Mesh scale factor
+            orbit_radius: Distance from orbit center (0 = no orbit)
+            orbit_speed: Angular speed in radians per update
+            orbit_center: Center point of orbit
+        """
+        try:
+            vertices, faces, colors, texture, uvs = self.model_loader.load_mesh(file_path)
+            
+            if len(vertices) == 0:
+                self.error_logger.log_error("Mesh has 0 vertices", component="RENDERER_MESH", severity=ErrorSeverity.WARNING)
+                return
+
+            if texture is not None and uvs is not None:
+                # Use texture mapping
+                # Flip V coordinate for VBO
+                # uvs[:, 1] = 1.0 - uvs[:, 1]
+                mesh_visual = visuals.Mesh(vertices=vertices, faces=faces, 
+                                         texcoords=uvs, shading='smooth')
+                mesh_visual.texture_format = '2d'
+                # Ensure texture is contiguous and correct type
+                import numpy as np
+                if texture.dtype != np.float32:
+                     texture = texture.astype(np.float32) / 255.0
+                mesh_visual.texture = texture
+            else:
+                # Fallback to vertex colors
+                mesh_visual = visuals.Mesh(vertices=vertices, faces=faces, 
+                                         vertex_colors=colors, shading='smooth')
+            
+            # Create a transform for the mesh
+            from vispy.visuals.transforms import STTransform
+            transform = STTransform(scale=(scale, scale, scale), translate=position)
+            mesh_visual.transform = transform
+            
+            self.view.add(mesh_visual)
+            self.meshes.append(mesh_visual)
+            
+            # Track orbital data if orbiting
+            if orbit_radius > 0:
+                initial_angle = np.arctan2(position[1] - orbit_center[1], position[0] - orbit_center[0])
+                self.mesh_orbits.append({
+                    'mesh': mesh_visual,
+                    'radius': orbit_radius,
+                    'angle': initial_angle,
+                    'speed': orbit_speed,
+                    'center': orbit_center,
+                    'scale': scale,
+                    'z': position[2]
+                })
+            
+            self.error_logger.log_error(f"Added mesh {file_path}", component="RENDERER_MESH", severity=ErrorSeverity.INFO)
+            
+        except Exception as e:
+            self.error_logger.log_exception(e, component="RENDERER_MESH", severity=ErrorSeverity.ERROR)
+
+    def update_mesh_positions(self, positions: np.ndarray):
+        """
+        Update mesh positions to match physics engine particles.
+        Assumes meshes[i] corresponds to positions[i].
+        """
+        from vispy.visuals.transforms import STTransform
+        
+        # We can only update up to the number of available meshes or positions
+        count = min(len(self.meshes), len(positions))
+        
+        for i in range(count):
+            mesh = self.meshes[i]
+            pos = positions[i]
+            
+            # Preserve existing scale from current transform if possible
+            current_scale = (1, 1, 1)
+            if hasattr(mesh, 'transform') and isinstance(mesh.transform, STTransform):
+                current_scale = mesh.transform.scale
+            
+            # Create new transform with updated position
+            mesh.transform = STTransform(scale=current_scale, translate=(pos[0], pos[1], pos[2]))
+
     def clear(self):
-        """Clear all particles from the view."""
+        """Clear all particles and meshes from the view."""
         self.positions = None
         self.colors = None
         self.sizes = None
         self.markers.set_data(pos=np.zeros((0, 3)))
+        
+        # Clear meshes
+        for mesh in self.meshes:
+            mesh.parent = None
+        self.meshes.clear()
+        self.mesh_orbits.clear()
     
     def set_camera_position(self, distance: float = 150, 
                            elevation: float = 30,

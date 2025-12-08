@@ -34,6 +34,7 @@ except ImportError:
 
 import numpy as np
 import time
+import os
 
 
 class MainWindow(QMainWindow):
@@ -324,6 +325,20 @@ class MainWindow(QMainWindow):
         fullscreen_action.triggered.connect(self.toggle_fullscreen)
         view_menu.addAction(fullscreen_action)
         
+        # Simulation menu
+        sim_menu = menubar.addMenu("🚀 Simulation")
+        
+        load_solar_system_action = QAction("🌍 Load Solar System", self)
+        load_solar_system_action.setShortcut(QKeySequence("Ctrl+L"))
+        load_solar_system_action.setStatusTip("Load the complete solar system with 3D models")
+        load_solar_system_action.triggered.connect(self.load_solar_system)
+        sim_menu.addAction(load_solar_system_action)
+        
+        clear_meshes_action = QAction("🗑 Clear 3D Models", self)
+        clear_meshes_action.setStatusTip("Remove all 3D mesh models from the scene")
+        clear_meshes_action.triggered.connect(self.clear_meshes)
+        sim_menu.addAction(clear_meshes_action)
+        
         # Help menu
         help_menu = menubar.addMenu("❓ Help")
         
@@ -574,6 +589,12 @@ class MainWindow(QMainWindow):
                 
                 self.app_state.positions = new_positions
                 self.app_state.velocities = new_velocities
+                
+                # Refresh colors if particle count changed (due to collisions/merges)
+                if len(new_positions) != len(self.app_state.colors):
+                    self.app_state.colors = self.engine.get_colors()
+                    self.app_state.types = self.engine.get_types()
+                
                 self.app_state.update_time(self.app_state.dt)
             
             except SimulationError:
@@ -593,6 +614,11 @@ class MainWindow(QMainWindow):
             try:
                 # Update visualization
                 self.update_visualization()
+                
+                # Update orbital positions of 3D meshes
+                if len(self.renderer.meshes) > 0 and self.app_state.positions is not None:
+                     self.renderer.update_mesh_positions(self.app_state.positions)
+                    
             except RenderingError as render_error:
                 self.error_logger.log_exception(
                     render_error,
@@ -692,6 +718,34 @@ class MainWindow(QMainWindow):
         # Add to engine
         self.engine.add_particle(position, velocity, mass, particle_type)
         
+        # Add 3D mesh visualization if available
+        try:
+            # Available planet models for random selection
+            planet_models = [
+                'earth.glb', 'mars.glb', 'venus.glb', 'jupiter.glb',
+                'neptune.glb', 'uranus.glb', 'mercury_natural_color.glb',
+                'saturno_v1.1.glb', 'pluto.glb'
+            ]
+            
+            asset_map = {
+                'star': ('sun.glb', 2.0),       # Sun model, larger scale
+                'planet': (np.random.choice(planet_models), 0.5),  # Random planet
+                'black_hole': ('the_moon_sharp.glb', 0.3)  # Use moon as placeholder for black hole
+            }
+            
+            if object_type in asset_map:
+                filename, scale = asset_map[object_type]
+                base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                mesh_path = os.path.join(base_path, "src", "assets", filename)
+                
+                if os.path.exists(mesh_path):
+                    self.renderer.add_mesh(mesh_path, position=tuple(position), scale=scale)
+                    self.statusBar().showMessage(f"Added {object_type} ({filename}) with 3D mesh")
+                else:
+                    self.error_logger.log_error(f"Mesh not found: {mesh_path}", component="SPAWN", severity=ErrorSeverity.WARNING)
+        except Exception as e:
+            self.error_logger.log_exception(e, component="SPAWN_MESH", severity=ErrorSeverity.WARNING)
+
         # Update state
         self.app_state.positions = self.engine.get_positions()
         self.app_state.velocities = self.engine.get_velocities()
@@ -700,7 +754,6 @@ class MainWindow(QMainWindow):
         
         self.update_visualization()
         self.timeline_widget.update_particle_count(self.app_state.get_particle_count())
-        self.statusBar().showMessage(f"Added {object_type}")
     
     def on_physics_toggle(self, setting: str, enabled: bool):
         """Handle physics setting toggle."""
@@ -837,3 +890,113 @@ class MainWindow(QMainWindow):
             self.restoreGeometry(geometry)
         if window_state:
             self.restoreState(window_state)
+    
+    def load_solar_system(self):
+        """Load the complete solar system with real physics and high-fidelity textures."""
+        try:
+            # Clear existing simulation
+            self.engine.initialize(0)
+            self.renderer.clear()
+            self.app_state.reset()
+            
+            base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            assets_path = os.path.join(base_path, "src", "assets")
+            
+            # Constants for logical units (approximate)
+            # Mass: 1000 = Sun, 1 = Earth
+            # Velocity: correct circular orbit v = sqrt(G*M/r)
+            # G is approx 1 in our simulaton units if tuned correctly, but we'll approximate
+            G = 0.5 
+            SUN_MASS = 50000.0
+            
+            # (filename, distance, mass, scale)
+            solar_system = [
+                ('sun.glb', 0, SUN_MASS, 2.0),
+                ('mercury_natural_color.glb', 40, 5.0, 0.4),
+                ('venus.glb', 70, 40.0, 0.9),
+                ('earth.glb', 100, 50.0, 1.0),
+                ('the_moon_sharp.glb', 105, 0.5, 0.27), # Special case logic needed for orbit?
+                ('mars.glb', 150, 20.0, 0.53),
+                ('jupiter.glb', 300, 1500.0, 11.0),
+                ('saturno_v1.1.glb', 550, 1200.0, 9.0),
+                ('uranus.glb', 900, 600.0, 4.0),
+                ('neptune.glb', 1200, 600.0, 3.8),
+                ('pluto.glb', 1400, 0.1, 0.18),
+            ]
+            
+            loaded_count = 0
+            
+            # Map for tracking bodies to setup relative orbits (e.g. Moon around Earth)
+            bodies = {} 
+            
+            for filename, distance, mass, scale in solar_system:
+                mesh_path = os.path.join(assets_path, filename)
+                if not os.path.exists(mesh_path):
+                    self.error_logger.log_error(f"Asset missing: {filename}", component="SOLAR_SYSTEM", severity=ErrorSeverity.WARNING)
+                    continue
+
+                # Calculate Position & Velocity for Circular Orbit
+                if distance == 0:
+                    pos = np.array([0, 0, 0], dtype=np.float32)
+                    vel = np.array([0, 0, 0], dtype=np.float32)
+                else:
+                    # Random angle
+                    angle = np.random.uniform(0, 2*np.pi)
+                    
+                    # Special Case: Moon
+                    if 'moon' in filename:
+                        # Find Earth's position if it exists, otherwise standard orbit
+                        # Simplified: Just put it near Earth distance but slightly offset
+                        # Proper N-body for Moon-Earth-Sun is hard in simple setup, we'll approximate
+                        # by putting it at Distance + Offset, with Earth Velocity + Orbit Velocity
+                        parent_dist = 100 # Earth
+                        pos = np.array([distance, 0, 0], dtype=np.float32) 
+                        v_orb = np.abs(np.sqrt(G * SUN_MASS / distance))
+                        vel = np.array([0, v_orb, 0], dtype=np.float32) # Simple circular
+                    else:
+                        pos = np.array([distance * np.cos(angle), distance * np.sin(angle), 0], dtype=np.float32)
+                        
+                        # Velocity vector perpendicular to position
+                        # v = sqrt(GM/r)
+                        speed = np.sqrt(G * SUN_MASS / distance)
+                        vel = np.array([-speed * np.sin(angle), speed * np.cos(angle), 0], dtype=np.float32)
+                
+                # Add to Physics Engine
+                # Type: 0=Star, 1=Planet
+                ptype = 0 if distance == 0 else 1
+                self.engine.add_particle(pos, vel, mass, ptype)
+                
+                # Add Mesh to Renderer (linked by index implicitly, as we cleared engine first)
+                # We pass scale to renderer. Position is updated by update_simulation loop visually
+                self.renderer.add_mesh(mesh_path, position=tuple(pos), scale=scale)
+                
+                loaded_count += 1
+
+            # Update State
+            self.app_state.positions = self.engine.get_positions()
+            self.app_state.velocities = self.engine.get_velocities()
+            self.app_state.colors = self.engine.get_colors()
+            self.app_state.types = self.engine.get_types()
+            
+            # Sync meshes with initial positions handled by renderer.add_mesh
+            # But we need to ensure update_visualization() links them.
+            # Currently update_visualization typically updates point cloud. 
+            # We need a way to link particle[i] -> mesh[i]
+            
+            self.renderer.set_camera_position(distance=500, elevation=45, azimuth=0)
+            self.statusBar().showMessage(f"Loaded solar system with {loaded_count} bodies (Real Physics enabled)")
+            
+        except Exception as e:
+            self.error_logger.log_exception(e, component="SOLAR_SYSTEM", severity=ErrorSeverity.ERROR)
+            QMessageBox.warning(self, "Error", f"Failed to load solar system: {str(e)}")
+    
+    def clear_meshes(self):
+        """Clear all 3D mesh models from the scene."""
+        try:
+            # Clear meshes from renderer
+            for mesh in self.renderer.meshes:
+                mesh.parent = None
+            self.renderer.meshes.clear()
+            self.statusBar().showMessage("Cleared all 3D models")
+        except Exception as e:
+            self.error_logger.log_exception(e, component="CLEAR_MESHES", severity=ErrorSeverity.ERROR)
