@@ -1,282 +1,211 @@
-# StellarForge
+# 🌌 StellarForge  
+![Build](https://img.shields.io/badge/build-stable-brightgreen)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![CUDA](https://img.shields.io/badge/CUDA-11.8%2B-green)
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-purple)
+![Status](https://img.shields.io/badge/status-active-success)
 
-High-performance N-body cosmic simulation application with GPU acceleration via CUDA and real-time 3D visualization. Built with Python (PyQt6, VisPy) for UI and C++ for physics computation.
+High-performance **N-body cosmic simulation engine** with GPU acceleration via **CUDA** and real-time **3D visualization**. Built with **Python (PyQt6, VisPy)** for UI and **C++** for physics computation.
 
-## Overview
+---
 
-StellarForge combines procedural galaxy generation with N-body physics simulation using Barnes-Hut octree algorithms. The architecture separates the UI layer (Python/PyQt6) from the compute layer (C++ with optional CUDA acceleration), allowing for efficient parallel simulation of 100k+ particles in real-time.
+## 🚀 Overview
 
-## Features
+**StellarForge** combines procedural galaxy generation with large-scale N-body physics using the **Barnes–Hut octree algorithm**.  
+Its hybrid architecture cleanly separates the UI layer (Python) from the compute layer (C++ with optional CUDA), enabling **real-time simulation of 100k+ particles** on modern hardware.
 
-- GPU-accelerated N-body physics (CUDA 11.x+)
-- Barnes-Hut O(N log N) gravity calculation algorithm
-- Real-time 3D rendering with VisPy (OpenGL)
-- Procedural galaxy generation (spiral, elliptical, irregular)
-- Scenario save/load (HDF5 for particle data, JSON for metadata)
-- Dual-mode operation (Observation and Sandbox)
-- Timeline controls with adjustable simulation speed
-- MVC architecture with pluggable physics backends
+Designed for:
+- Astrophysics experimentation  
+- High-performance computing demos  
+- Simulation & visualization research  
 
-## Project Structure
+---
 
-```
+## ✨ Features
+
+- ⚡ GPU-accelerated N-body physics (CUDA 11.x+)
+- 🌳 Barnes–Hut O(N log N) gravity solver
+- 🎮 Real-time 3D rendering via VisPy (OpenGL)
+- 🌌 Procedural galaxy generation (spiral, elliptical, irregular)
+- 💾 Scenario save/load (HDF5 + JSON)
+- 🔁 Dual modes: Observation & Sandbox
+- ⏱ Timeline controls with variable simulation speed
+- 🧩 MVC architecture with pluggable physics backends
+
+---
+
+## 🗂 Project Structure
+
 StellarForge/
 ├── src/
-│   ├── core/                   # State management and error handling
-│   │   ├── app_state.py        # Central state container
-│   │   ├── exceptions.py        # Custom exception types
-│   │   └── error_logger.py      # Error tracking and logging
-│   ├── gui/                    # PyQt6 UI components
-│   │   ├── main_window.py      # Main application window
-│   │   ├── control_panel.py    # Simulation controls
-│   │   └── styles.py           # Stylesheet definitions
-│   ├── vis/                    # VisPy visualization layer
-│   │   └── universe_renderer.py # Main 3D renderer
+│   ├── core/                   # State & error handling
+│   ├── gui/                    # PyQt6 UI
+│   ├── vis/                    # 3D visualization (VisPy)
 │   ├── engine_bridge/          # Physics engine abstraction
-│   │   ├── simulation_engine.py # ABC for physics engines
-│   │   ├── mock_engine.py       # CPU-only reference implementation
-│   │   └── cpp_engine.pyd/.so   # Compiled C++ bindings (after build)
 │   └── proc_gen/               # Procedural universe generation
-│       ├── universe_generator.py
-│       ├── density_field.py
-│       └── galaxy_placer.py
-├── cpp_engine/                 # C++ physics engine source
-│   ├── src/                    # C++ implementation
-│   ├── cuda/                   # CUDA kernels
-│   ├── include/                # Header files
-│   ├── CMakeLists.txt          # Build configuration
-│   └── README.md               # Build instructions
-├── config/                     # Configuration files
-├── data/                       # Saved scenarios (HDF5 + JSON)
-├── main.py                     # Application entry point
-├── requirements.txt            # Python dependencies
-└── setup.py                    # Python package setup
-```
+├── cpp_engine/                 # C++ / CUDA physics engine
+├── config/                     # App configuration
+├── data/                       # Saved simulations
+├── main.py                     # Entry point
+├── requirements.txt
+└── setup.py
 
-## Installation
+---
+
+## 🛠 Installation
 
 ### Prerequisites
 
-- Python 3.10 or higher
-- CMake 3.20+ (for C++ engine build)
-- C++ compiler (GCC 11+ on Linux, MSVC on Windows, Clang on macOS)
-- CUDA Toolkit 11.8+ (optional, for GPU acceleration)
-- git
+- Python 3.10+
+- CMake 3.20+
+- C++ Compiler (GCC / MSVC / Clang)
+- CUDA Toolkit 11.8+ (optional)
+- Git
 
-### Linux Setup
+---
 
-1. Clone repository:
-```bash
-git clone https://github.com/SharonMathew4/StellarForge.git
-cd StellarForge
-```
+### 🐧 Linux Setup
 
-2. Create virtual environment:
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+git clone https://github.com/SharonMathew4/StellarForge.git  
+cd StellarForge  
 
-3. Install Python dependencies:
-```bash
-pip install --upgrade pip
-pip install -r requirements.txt
-```
+python3 -m venv venv  
+source venv/bin/activate  
 
-4. Build C++ physics engine (optional but recommended):
+pip install --upgrade pip  
+pip install -r requirements.txt  
 
-**Without CUDA (CPU-only with OpenMP):**
-```bash
-./build_engine.sh
-```
+**CPU-only build**
+./build_engine.sh  
 
-**With CUDA (GPU acceleration):**
-```bash
-./build_with_cuda.sh
-```
+**CUDA build**
+./build_with_cuda.sh  
 
-Or manually:
-```bash
-cd cpp_engine
-mkdir -p build && cd build
-cmake .. -DUSE_CUDA=ON -DUSE_OPENMP=ON
-make -j$(nproc)
-cd ../..
-```
+Run:
+python main.py  
+python main.py --engine cpp --backend openmp  
+python main.py --engine cpp --backend cuda  
 
-5. Run application:
-```bash
-# With CPU-based mock engine (no build required)
-python main.py
+---
 
-# With C++ engine (after build)
-python main.py --engine cpp --backend openmp
+### 🪟 Windows Setup
 
-# With CUDA GPU (RTX 3050/4050)
-python main.py --engine cpp --backend cuda
-```
+git clone https://github.com/SharonMathew4/StellarForge.git  
+cd StellarForge  
 
-### Windows Setup
+python -m venv venv  
+venv\Scripts\activate  
 
-1. Clone repository:
-```cmd
-git clone https://github.com/SharonMathew4/StellarForge.git
-cd StellarForge
-```
+pip install --upgrade pip  
+pip install -r requirements.txt  
 
-2. Create virtual environment:
-```cmd
-python -m venv venv
-venv\Scripts\activate
-```
+**CPU-only**
+build_engine.bat  
 
-3. Install Python dependencies:
-```cmd
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
+**CUDA**
+build_with_cuda.bat  
 
-4. Build C++ physics engine (optional but recommended):
+Run:
+python main.py  
+python main.py --engine cpp --backend openmp  
+python main.py --engine cpp --backend cuda  
 
-**Prerequisites for C++ build:**
-- Install Visual Studio 2022 with C++ workload
-- Install CMake from https://cmake.org/download/
-- For CUDA: Install CUDA Toolkit from https://developer.nvidia.com/cuda-downloads
+---
 
-**Without CUDA (CPU-only with OpenMP):**
-```cmd
-build_engine.bat
-```
+## ▶ Running the Application
 
-**With CUDA (GPU acceleration):**
-```cmd
-build_with_cuda.bat
-```
+python main.py  
+python main.py --engine cpp --backend openmp  
+python main.py --engine cpp --backend cuda  
+python main.py --help  
 
-Or manually:
-```cmd
-cd cpp_engine
-mkdir build && cd build
-cmake .. -DUSE_CUDA=ON -DUSE_OPENMP=ON -G "Visual Studio 17 2022"
-cmake --build . --config Release
-cd ..\..
-```
+---
 
-5. Run application:
-```cmd
-# With CPU-based mock engine (no build required)
-python main.py
+## ⚙ Configuration
 
-# With C++ engine (after build)
-python main.py --engine cpp --backend openmp
+Config file: `config/default_settings.json`
 
-# With CUDA GPU (RTX 3050/4050)
-python main.py --engine cpp --backend cuda
-```
-
-## Running the Application
-
-Launch using command line with optional parameters:
-
-```bash
-# Default: MockEngine (pure Python, no C++ build required)
-python main.py
-
-# With C++ engine and multi-threaded CPU
-python main.py --engine cpp --backend openmp
-
-# With GPU acceleration (NVIDIA CUDA)
-python main.py --engine cpp --backend cuda
-
-# View available options
-python main.py --help
-```
-
-## Configuration
-
-Application settings are in `config/default_settings.json`:
-
-- Window dimensions and title
-- Default particle counts per galaxy
-- Camera zoom and FOV parameters
-- Physics simulation timestep
+- Window size & title
+- Particle counts
+- Camera & FOV
+- Physics timestep
 - Procedural generation parameters
 
-Modify as needed for your system specifications.
-## Architecture
+---
 
-**Engine Bridge Pattern**: SimulationEngine abstract interface allows swapping physics backends.
+## 🧠 Architecture
 
-Available implementations:
-- `MockEngine`: Pure Python, development/testing
-- `CppEngine`: C++ with CUDA/OpenMP backends, production
+**Engine Bridge Pattern**
 
-```python
-# Optional - C++ bindings only available after successful build
-from engine_bridge import CppEngine
-engine = CppEngine(backend='cuda')
-engine.initialize(100000)  # 100k particles
-engine.step(0.016)  # 16ms timestep
-positions = engine.get_positions()
-```
+Backends:
+- `MockEngine` → Pure Python (testing)
+- `CppEngine` → C++ with OpenMP / CUDA (production)
 
-**Compute Backends**:
-- `openmp`: Multi-threaded CPU via OpenMP
-- `cuda`: NVIDIA CUDA GPU acceleration
-- `single`: Single-threaded CPU (testing only)
+Example:
+from engine_bridge import CppEngine  
+engine = CppEngine(backend='cuda')  
+engine.initialize(100000)  
+engine.step(0.016)  
 
-## Performance
+---
 
-Tested on RTX 4050:
-- MockEngine: 1,000 particles at 60 FPS
-- CppEngine (OpenMP): 10,000 particles at 60 FPS
-- CppEngine (CUDA): 100,000 particles at 60 FPS
-- CppEngine (CUDA): 1,000,000 particles at 30 FPS
+## 📊 Performance Benchmarks
 
-## Technology Stack
+RTX 4050 Tested Results:
 
-| Component | Technology |
-|-----------|-----------|
-| GUI | PyQt6 |
-| Visualization | VisPy + OpenGL |
-| Physics | C++ with CUDA/OpenMP |
-| Python bindings | pybind11 |
-| Build system | CMake |
-| Data storage | HDF5 |
+- MockEngine → 1k particles @ 60 FPS
+- CppEngine (OpenMP) → 10k @ 60 FPS
+- CppEngine (CUDA) → 100k @ 60 FPS
+- CppEngine (CUDA) → 1M @ 30 FPS
 
-## Dependencies
+---
 
-### Python
-- PyQt6 >= 6.6.0
-- NumPy >= 1.24.0
-- VisPy >= 0.14.0
-- h5py >= 3.10.0
+## 🧪 Tech Stack
+
+- UI: PyQt6  
+- Rendering: VisPy + OpenGL  
+- Physics: C++ / CUDA / OpenMP  
+- Bindings: pybind11  
+- Build: CMake  
+- Storage: HDF5  
+
+---
+
+## 🧩 Dependencies
+
+Python:
+- PyQt6
+- NumPy
+- VisPy
+- h5py
 - scipy, astropy, noise
 
-### C++ (optional)
-- CMake >= 3.20
-- CUDA Toolkit >= 11.8 (optional)
-- OpenMP (included with most compilers)
+C++:
+- CMake
+- CUDA Toolkit (optional)
+- OpenMP
 
-## Troubleshooting
+---
 
-**Black screen in visualization:**
-Ensure graphics drivers are current. Update VisPy if needed.
+## 🐞 Troubleshooting
 
-**C++ engine fails to load:**
-Verify build completed successfully: `python verify_engine.py`
+Black screen → Update GPU drivers & VisPy  
+C++ engine load error → python verify_engine.py  
+Low performance → Reduce particles / enable CUDA  
 
-**Performance issues:**
-- Reduce particle count
-- Use CUDA backend if available
-- Disable timeline visualization features
+---
 
-## License
+## 📄 License
 
-See LICENSE file.
+MIT License — see LICENSE file.
 
-## References
+---
 
-- C++ engine build: See `cpp_engine/README.md`
-- Physics algorithm: Barnes-Hut O(N log N) tree code
-- Configuration: `config/default_settings.json`
+## 📚 References
+
+- Barnes–Hut N-body algorithm  
+- cpp_engine/README.md  
+- config/default_settings.json  
+
+✨ **StellarForge — Where galaxies are born in code.**
